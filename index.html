@@ -14,12 +14,11 @@
             --tva-bg-dark: #0a0a0a;
             --tva-grid-color: rgba(255, 140, 66, 0.15);
         }
-
-     body, html {
+            body, html {
         margin: 0;
         padding: 0;
         height: 100%;
-        background-color: #2a2520; /* Outer casing color */
+        background-color: #2a2520;
         font-family: 'VT323', monospace;
         color: var(--tva-orange);
         overflow: hidden;
@@ -125,7 +124,7 @@
         box-shadow: 0 0 15px var(--tva-orange);
     }
 
-    /* Responsive View Containers */
+    /* CRITICAL FIX: overflow-y: auto enables scrolling */
     .view-container {
         position: absolute;
         top: 0; left: 0; width: 100%; height: 100%;
@@ -133,7 +132,7 @@
         display: none;
         flex-direction: column;
         box-sizing: border-box;
-        overflow-y: auto; /* Universal scroll for mobile */
+        overflow-y: auto; 
         overflow-x: hidden;
     }
 
@@ -171,7 +170,6 @@
         }
     }
 
-    /* Simple CSS Icons - Scaled down for mobile */
     .icon-container {
         display: flex;
         flex-direction: column;
@@ -257,6 +255,7 @@
         text-transform: uppercase;
         font-size: 1rem;
         width: fit-content;
+        flex-shrink: 0;
     }
     @media (min-width: 768px) {
         .btn-back { padding: 5px 15px; font-size: 1.2rem; margin-bottom: 20px; }
@@ -301,30 +300,22 @@
 
     @keyframes pulse { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
 
-    .miss-minutes-img {
-        width: 100%; height: 100%;
-        object-fit: contain;
-        filter: invert(1) sepia(1) saturate(1000%) hue-rotate(330deg) brightness(1.2) contrast(1.5);
-        mix-blend-mode: screen;
-    }
-
-    /* Scrollbar styling */
-    ::-webkit-scrollbar { width: 4px; }
-    @media (min-width: 768px) { ::-webkit-scrollbar { width: 8px; } }
-    ::-webkit-scrollbar-track { background: rgba(255, 140, 66, 0.1); }
-    ::-webkit-scrollbar-thumb { background: var(--tva-orange); }
+    /* Scrollbars visible and styled */
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.5); }
+    ::-webkit-scrollbar-thumb { background: var(--tva-orange); border-radius: 4px; }
 
     #timeline-canvas {
         width: 100%;
-        height: 150px;
+        height: 200px; /* Reduced height to fit standard screens */
         border: 2px solid var(--tva-orange);
         margin-top: 10px;
         margin-bottom: 10px;
         background: rgba(0,0,0,0.3);
-        flex-shrink: 0;
+        flex-shrink: 0; /* Prevents squishing */
     }
     @media (min-width: 768px) {
-        #timeline-canvas { height: 250px; margin-bottom: 20px; }
+        #timeline-canvas { height: 220px; margin-bottom: 20px; }
     }
 
     @keyframes floatMM { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
@@ -389,14 +380,14 @@
         <div class="scanlines"></div>
         <div class="crt-flicker"></div>
 
+        <!-- VIEW: HOME -->
         <div id="view-home" class="view-container active">
             <div class="status-dots">
                 <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
             </div>
             
             <div class="flex flex-col md:flex-row h-full w-full">
-                <!-- Icon Grid Side -->
-                <div class="w-full md:w-1/2 grid grid-cols-2 gap-4 md:gap-8 p-4 md:pl-12 md:p-8 items-center mt-6 md:mt-0">
+                <div class="w-full md:w-1/2 grid grid-cols-2 gap-4 md:gap-8 p-4 md:pl-12 md:p-8 items-center mt-6 md:mt-0 flex-shrink-0">
                     <div class="icon-container" onclick="navigate('view-about')">
                         <div class="icon-art icon-profile"></div>
                         <h3 class="text-xl md:text-2xl">IDENTITY</h3>
@@ -420,7 +411,6 @@
                     </div>
                 </div>
 
-                <!-- List Menu Side -->
                 <div class="w-full md:w-1/2 flex flex-col justify-center border-t-2 md:border-t-0 md:border-l-2 border-dashed border-[#ff8c42] opacity-80 pt-6 md:pt-0 md:pl-10 mt-4 md:mt-0 pb-10 md:pb-0">
                     <h1 class="text-3xl md:text-5xl mb-1 md:mb-2 text-glow">ACTION LIST///</h1>
                     <h2 class="text-2xl md:text-4xl mb-4 md:mb-8">SELECT PROGRAM</h2>
@@ -438,6 +428,7 @@
             <div class="absolute bottom-2 right-2 md:bottom-4 md:right-4 text-sm md:text-xl">0231.47 // 387741</div>
         </div>
 
+        <!-- VIEW: ABOUT -->
         <div id="view-about" class="view-container">
             <div class="top-bar">
                 <span>SUBJECT: IDENTITY PROFILE</span>
@@ -481,24 +472,11 @@
                         <a href="https://www.linkedin.com/in/aditya-prasad270308" target="_blank" class="block text-base md:text-xl hover:bg-[#ff8c42] hover:text-black w-fit px-1">> LINKEDIN: aditya-prasad270308</a>
                         <p class="block text-base md:text-xl w-fit px-1 mt-1">> COMM-LINK: +91 7044459740</p>
                     </div>
-                    
-                    <div class="mt-6 border-t border-dashed border-[#ff8c42] pt-4 pb-8 md:pb-0">
-                        <h3 class="text-xl md:text-2xl mb-2">CREDENTIALS: SCANNABLE ID</h3>
-                        <p class="text-xs md:text-sm mb-4 opacity-80">> POINT CAMERA DEVICE AT RELIC TO VERIFY TIMELINE</p>
-                        
-                        <div class="relative w-48 md:w-64 h-auto border-2 border-[#ff8c42] rounded-lg overflow-hidden group">
-                            <img src="loki_tva_custom_id_back.jpg" alt="TVA Custom ID" class="w-full h-auto object-cover opacity-90" onerror="this.onerror=null; this.src='https://placehold.co/400x600/0a0a0a/ff8c42?text=TVA+ID+CARD';">
-                            <div class="absolute inset-0 flex flex-col items-center justify-center bg-black/30">
-                                <div class="p-1 md:p-2 border-2 border-[#ff8c42] bg-[#0a0a0a]">
-                                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=https://www.linkedin.com/in/aditya-prasad270308&color=ff8c42&bgcolor=0a0a0a&margin=0" alt="Scan" class="w-16 h-16 md:w-24 md:h-24">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
 
+        <!-- VIEW: PROJECTS -->
         <div id="view-projects" class="view-container">
             <div class="top-bar">
                 <span>DOSSIER: INCIDENT REPORTS</span>
@@ -507,7 +485,6 @@
             <div class="btn-back" onclick="navigate('view-home')">&lt; RETURN TO MAIN</div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 flex-grow pb-10">
-                
                 <div class="panel cursor-pointer hover:bg-[#ff8c42] hover:text-[#0a0a0a] transition-colors group mb-0" onclick="window.open('https://lnkd.in/p/d2HaKu-d', '_blank')">
                     <h2 class="text-xl md:text-2xl mb-1 md:mb-2 group-hover:text-[#0a0a0a] font-bold">FILE: HUL EQUITY RESEARCH ↗</h2>
                     <p class="text-sm md:text-lg mb-2 opacity-80 group-hover:text-[#0a0a0a]">TIMELINE SEGMENT: INDEPENDENT</p>
@@ -535,46 +512,48 @@
                     <p class="text-base md:text-xl group-hover:text-black">Executed sales automation workflow via EXIM data analysis, generating 500+ leads. Mastered Tally ERP for MSME compliance with 100% accuracy.</p>
                     <div class="mt-2 md:mt-4 text-xs md:text-sm font-bold">TOOLS: [TALLY ERP] [CLAY AI] [EXIM DATA]</div>
                 </div>
-
             </div>
         </div>
 
-        <!-- RESPONSIVE TIMELINE -->
+        <!-- VIEW: TIMELINE -->
         <div id="view-timeline" class="view-container">
             <div class="top-bar">
                 <span>MONITORING: TEMPORAL AURA</span>
                 <span>TIMELINE SEGMENT: A17.BOD</span>
             </div>
             
-            <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-4 md:mb-6 gap-4">
-                <div class="btn-back !mb-0" onclick="navigate('view-home')">&lt; RETURN TO MAIN</div>
-            </div>
+            <div class="btn-back" onclick="navigate('view-home')">&lt; RETURN TO MAIN</div>
             
-            <h1 class="text-2xl md:text-4xl text-glow mb-1 md:mb-2">WARNING! NEXUS EVENT DETECTED</h1>
-            <p class="text-base md:text-xl mb-2 md:mb-4">Tracking career trajectory branches...</p>
+            <h1 class="text-3xl md:text-4xl text-glow mb-1 md:mb-2 mt-2">WARNING! NEXUS EVENT DETECTED</h1>
+            <p class="text-lg md:text-xl mb-4">Tracking career trajectory branches...</p>
 
+            <!-- Canvas -->
             <canvas id="timeline-canvas"></canvas>
 
-            <!-- Stack text on mobile -->
-            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center text-sm md:text-xl mt-2 md:mt-4 gap-1 sm:gap-0 pb-6">
-                <p class="opacity-70">> B.COM HONOURS [2023]</p>
-                <p class="opacity-80">> ITC MARKETING [2025]</p>
-                <p class="opacity-90">> PROCAM LOGISTICS [2026]</p>
-                <p class="text-white text-glow font-bold">> MBA FINANCE [2027]</p>
-            </div>
-            
-            <!-- MOVED BUTTONS HERE, DIRECTLY BELOW THE TEXT -->
-            <div class="flex flex-row justify-center gap-4 w-full pb-10">
-                <a href="https://www.linkedin.com/in/adityaprasad270308" target="_blank" class="flex-1 sm:flex-none border-2 border-[#ff8c42] px-6 py-2 hover:bg-[#ff8c42] hover:text-[#0a0a0a] transition-colors cursor-pointer text-center no-underline font-bold text-lg">
-                    > LINKEDIN
-                </a>
-                <a href="https://drive.google.com/file/d/1fhmFM7qk5UQKpwKpgc35nXJgW3Gp1ijV/view?usp=drive_link" target="_blank" class="flex-1 sm:flex-none border-2 border-[#ff8c42] px-6 py-2 hover:bg-[#ff8c42] hover:text-[#0a0a0a] transition-colors cursor-pointer text-center no-underline font-bold text-lg">
-                    > RESUME.PDF
-                </a>
+            <!-- Split Layout: Buttons on Left, Timeline on Right -->
+            <div class="flex flex-col md:flex-row justify-between items-start text-sm md:text-xl mt-6 pb-12 gap-8">
+                
+                <!-- Side-by-Side Links directly under canvas -->
+                <div class="flex flex-row gap-4 w-full md:w-auto font-bold text-lg md:text-2xl">
+                    <a href="https://www.linkedin.com/in/adityaprasad270308" target="_blank" class="flex-1 md:flex-none border-2 border-[#ff8c42] px-4 py-2 md:px-8 md:py-3 hover:bg-[#ff8c42] hover:text-[#0a0a0a] transition-colors cursor-pointer text-center no-underline whitespace-nowrap">
+                        > LINKEDIN
+                    </a>
+                    <a href="https://drive.google.com/file/d/1fhmFM7qk5UQKpwKpgc35nXJgW3Gp1ijV/view?usp=drive_link" target="_blank" class="flex-1 md:flex-none border-2 border-[#ff8c42] px-4 py-2 md:px-8 md:py-3 hover:bg-[#ff8c42] hover:text-[#0a0a0a] transition-colors cursor-pointer text-center no-underline whitespace-nowrap">
+                        > RESUME.PDF
+                    </a>
+                </div>
+
+                <!-- Temporal History -->
+                <div class="flex flex-col text-left md:text-right w-full md:w-auto gap-2">
+                    <p class="opacity-70">> B.COM HONOURS [2023]</p>
+                    <p class="opacity-80">> ITC MARKETING [2025]</p>
+                    <p class="opacity-90">> PROCAM LOGISTICS [2026]</p>
+                    <p class="text-white text-glow font-bold text-xl md:text-2xl">> MBA FINANCE [2027]</p>
+                </div>
             </div>
         </div>
 
-        <!-- RESPONSIVE CHAT -->
+        <!-- VIEW: CHAT -->
         <div id="view-ai" class="view-container">
             <div class="top-bar">
                 <span>PROGRAM: MISS MINUTES AI</span>
@@ -611,12 +590,10 @@
             targetView.classList.add('active');
             
             if(targetViewId === 'view-timeline') {
-                // Slight delay to ensure DOM is painted before grabbing width
                 setTimeout(initTimelineCanvas, 50);
             }
             
             if(targetViewId === 'view-ai') {
-                // Don't auto-focus on mobile to prevent keyboard popping up unnecessarily
                 if(window.innerWidth > 768) {
                     setTimeout(() => document.getElementById('chat-input').focus(), 500);
                 }
@@ -647,10 +624,8 @@
         if(!canvas) return;
         const ctx = canvas.getContext('2d');
         
-        // Recalculate accurately based on parent
         canvas.width = canvas.parentElement.clientWidth - (window.innerWidth < 768 ? 30 : 80); 
-        // Dynamic height based on screen size
-        canvas.height = window.innerWidth < 768 ? 150 : 250;
+        canvas.height = window.innerWidth < 768 ? 150 : 200; // Shrunk graph to ensure visibility
 
         const orange = '#ff8c42';
         const red = '#ff3333';
@@ -742,7 +717,6 @@
         draw();
     }
 
-    // Debounce resize event
     let resizeTimeout;
     window.addEventListener('resize', () => {
         clearTimeout(resizeTimeout);
@@ -775,17 +749,14 @@ Keep responses concise (1-2 paragraphs max), completely in character, and helpfu
         const message = inputEl.value.trim();
         if(!message) return;
 
-        // Display user message
         addMessageToChat(message, 'user');
         inputEl.value = '';
         
-        // Add to history
         chatHistory.push({ role: "user", parts: [{ text: message }] });
 
-        // Show typing indicator
         const typingId = addMessageToChat("Thinking...", 'mm', true);
 
-        const apiKey = ""; // Canvas runtime fills this in automatically
+        const apiKey = ""; 
         const apiUrl = "https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=" + apiKey;
 
         const payload = {
@@ -804,7 +775,6 @@ Keep responses concise (1-2 paragraphs max), completely in character, and helpfu
 
             const result = await response.json();
             
-            // Remove typing indicator
             const typingIndicator = document.getElementById(typingId);
             if(typingIndicator) typingIndicator.remove();
 
